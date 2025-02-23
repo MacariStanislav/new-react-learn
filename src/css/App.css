@@ -1,0 +1,41 @@
+@charset "UTF-8";
+.unauthenticated {
+  position: relative;
+  /* Чтобы z-index работал */
+  background-image: url("../img/ввв.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.unauthenticated::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, rgba(213, 0, 195, 0.232) 30%, rgba(51, 23, 176, 0.104) 100%);
+  z-index: 1;
+  /* Этот слой будет ниже, чем контент */
+}
+
+.unauthenticated > * {
+  position: relative;
+  /* Контент внутри будет выше, чем псевдоэлемент */
+  z-index: 2;
+  /* Устанавливаем z-index для всех вложенных элементов */
+}
+
+.authenticated {
+  background-image: url("../img/stoto.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

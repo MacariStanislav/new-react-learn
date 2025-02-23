@@ -1,0 +1,255 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Times New Roman", Times, serif;
+}
+
+$primary-color: #000000;
+$background-color: rgba(0, 0, 0, 0.9);
+$box-shadow: 0 15px 25px rgba(0, 0, 0, 1);
+$highlight-color: #aaa;
+$primary-color: #ef0000d0;
+$secondary-color: #1d1d1d;
+$text-shadow-color-1: #f8f005;
+$text-shadow-color-2: #00e6f6;
+$font-size: 18px;
+$letter-spacing: 3px;
+$padding-vertical: 16px;
+$padding-horizontal: 20px;
+$border-radius: 5px;
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  margin: 20px auto;
+  transform: translate(-50%, -55%);
+  background: transparent;
+  box-sizing: border-box;
+  box-shadow: $box-shadow;
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+
+  p:first-child {
+    margin: 0 0 30px;
+    padding: 0;
+    color: rgb(0, 0, 0, 255);
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    text-shadow: 5px 2px 8px rgb(255, 255, 255);
+  }
+
+  .user-box {
+    position: relative;
+    input:-webkit-autofill {
+      background-color: transparent !important; /* Убираем белый фон */
+      color: rgb(142, 165, 220) !important; /* Белый текст */
+      transition: background-color 5000s ease-in-out 0s,
+        color 5000s ease-in-out 0s; /* Плавное изменение фона и текста */
+    }
+    input {
+      width: 100%;
+      padding: 10px 0;
+      padding-bottom: 1px;
+      font-size: 16px;
+      color: rgb(255, 255, 255);
+      margin-bottom: 42px;
+      border: none;
+      border-bottom: 1px solid black;
+      outline: none;
+      background: transparent;
+    }
+
+    label {
+      position: absolute;
+      top: -20px;
+      left: 0;
+      padding: 10px 0;
+      font-size: 19px;
+
+      color: rgb(0, 0, 0);
+
+      pointer-events: none;
+      transition: 0.5s;
+    }
+  }
+
+  form {
+    a,
+    a::after {
+      padding: $padding-vertical $padding-horizontal;
+      font-size: $font-size;
+      background: linear-gradient(45deg, transparent 5%, $primary-color 5%);
+      border: 0;
+      color: #000000;
+      letter-spacing: $letter-spacing;
+      line-height: 1;
+      box-shadow: 6px 0px 0px $secondary-color;
+      outline: transparent;
+      position: relative;
+      text-decoration: none; // Убираем подчеркивание для ссылки
+    }
+
+    // Эффект при наведении на ссылку
+    a::after {
+      --slice-0: inset(50% 50% 50% 50%);
+      --slice-1: inset(80% -6px 0 0);
+      --slice-2: inset(50% -6px 30% 0);
+      --slice-3: inset(10% -6px 85% 0);
+      --slice-4: inset(40% -6px 43% 0);
+      --slice-5: inset(80% -6px 5% 0);
+      content: "Create Account";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        45deg,
+        transparent 3%,
+        $secondary-color 3%,
+        $secondary-color 5%,
+        $primary-color 5%
+      );
+      text-shadow: -3px -3px 0px $text-shadow-color-1,
+        3px 3px 0px $text-shadow-color-2;
+      clip-path: var(--slice-0);
+    }
+    a.kiberpunk2 {
+      display: flex;
+      width: 100px;
+
+      justify-content: center;
+      &::after {
+        content: "Submit";
+      }
+    }
+
+    // Анимация для эффекта на ссылке
+    a:hover::after {
+      animation: glitch 1s steps(2, end);
+    }
+
+    @keyframes glitch {
+      0% {
+        clip-path: var(--slice-1);
+        transform: translate(-20px, -10px);
+      }
+      10% {
+        clip-path: var(--slice-3);
+        transform: translate(10px, 10px);
+      }
+      20% {
+        clip-path: var(--slice-1);
+        transform: translate(-10px, 10px);
+      }
+      30% {
+        clip-path: var(--slice-3);
+        transform: translate(0px, 5px);
+      }
+      40% {
+        clip-path: var(--slice-2);
+        transform: translate(-5px, 0px);
+      }
+      50% {
+        clip-path: var(--slice-3);
+        transform: translate(5px, 0px);
+      }
+      60% {
+        clip-path: var(--slice-4);
+        transform: translate(5px, 10px);
+      }
+      70% {
+        clip-path: var(--slice-2);
+        transform: translate(-10px, 10px);
+      }
+      80% {
+        clip-path: var(--slice-5);
+        transform: translate(20px, -10px);
+      }
+      90% {
+        clip-path: var(--slice-1);
+        transform: translate(-10px, 0px);
+      }
+      100% {
+        clip-path: var(--slice-1);
+        transform: translate(0);
+      }
+    }
+  }
+
+  p:last-child {
+    margin-top: 30px;
+
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+  }
+
+  a.a2 {
+    color: $primary-color;
+    text-decoration: none;
+    cursor: pointer;
+    margin-left: 4%;
+
+    &:hover {
+      background: transparent;
+      color: rgb(255, 255, 255);
+      border-radius: 5px;
+    }
+  }
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -1000%;
+  }
+
+  50%,
+  100% {
+    left: 50%;
+  }
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -1000%;
+  }
+
+  50%,
+  100% {
+    top: 1000%;
+  }
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -1000%;
+  }
+
+  50%,
+  100% {
+    right: 1000%;
+  }
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -1000%;
+  }
+
+  50%,
+  100% {
+    bottom: 1000%;
+  }
+}
+.eror {
+  color: rgb(222, 0, 0);
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}

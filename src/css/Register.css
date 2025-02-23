@@ -1,0 +1,205 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  margin: 20px auto;
+  transform: translate(-50%, -55%);
+  background: transparent;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgb(0, 0, 0);
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+}
+.login-box p:first-child {
+  margin: 0 0 30px;
+  padding: 0;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: bolder;
+  letter-spacing: 1px;
+  text-shadow: 5px 2px 8px rgb(255, 255, 255);
+}
+.login-box .user-box {
+  position: relative;
+}
+.login-box .user-box input:-webkit-autofill {
+  background-color: transparent !important; /* Убираем белый фон */
+  color: rgb(142, 165, 220) !important; /* Белый текст */
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s; /* Плавное изменение фона и текста */
+}
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  padding-bottom: 1px;
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  margin-bottom: 42px;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  padding: 10px 0;
+  font-size: 19px;
+  color: rgb(0, 0, 0);
+  pointer-events: none;
+  transition: 0.5s;
+}
+.login-box form a,
+.login-box form a::after {
+  padding: 16px 20px;
+  font-size: 18px;
+  background: linear-gradient(45deg, transparent 5%, rgba(239, 0, 0, 0.8156862745) 5%);
+  border: 0;
+  color: #000000;
+  letter-spacing: 3px;
+  line-height: 1;
+  box-shadow: 6px 0px 0px #1d1d1d;
+  outline: transparent;
+  position: relative;
+  text-decoration: none;
+}
+.login-box form a::after {
+  --slice-0: inset(50% 50% 50% 50%);
+  --slice-1: inset(80% -6px 0 0);
+  --slice-2: inset(50% -6px 30% 0);
+  --slice-3: inset(10% -6px 85% 0);
+  --slice-4: inset(40% -6px 43% 0);
+  --slice-5: inset(80% -6px 5% 0);
+  content: "Create Account";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 3%, #1d1d1d 3%, #1d1d1d 5%, rgba(239, 0, 0, 0.8156862745) 5%);
+  text-shadow: -3px -3px 0px #f8f005, 3px 3px 0px #00e6f6;
+  clip-path: var(--slice-0);
+}
+.login-box form a.kiberpunk2 {
+  display: flex;
+  width: 100px;
+  justify-content: center;
+}
+.login-box form a.kiberpunk2::after {
+  content: "Submit";
+}
+.login-box form a:hover::after {
+  animation: glitch 1s steps(2, end);
+}
+@keyframes glitch {
+  0% {
+    clip-path: var(--slice-1);
+    transform: translate(-20px, -10px);
+  }
+  10% {
+    clip-path: var(--slice-3);
+    transform: translate(10px, 10px);
+  }
+  20% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 10px);
+  }
+  30% {
+    clip-path: var(--slice-3);
+    transform: translate(0px, 5px);
+  }
+  40% {
+    clip-path: var(--slice-2);
+    transform: translate(-5px, 0px);
+  }
+  50% {
+    clip-path: var(--slice-3);
+    transform: translate(5px, 0px);
+  }
+  60% {
+    clip-path: var(--slice-4);
+    transform: translate(5px, 10px);
+  }
+  70% {
+    clip-path: var(--slice-2);
+    transform: translate(-10px, 10px);
+  }
+  80% {
+    clip-path: var(--slice-5);
+    transform: translate(20px, -10px);
+  }
+  90% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 0px);
+  }
+  100% {
+    clip-path: var(--slice-1);
+    transform: translate(0);
+  }
+}
+.login-box p:last-child {
+  margin-top: 30px;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+}
+.login-box a.a2 {
+  color: rgba(239, 0, 0, 0.8156862745);
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 4%;
+}
+.login-box a.a2:hover {
+  background: transparent;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -1000%;
+  }
+  50%, 100% {
+    left: 50%;
+  }
+}
+@keyframes btn-anim2 {
+  0% {
+    top: -1000%;
+  }
+  50%, 100% {
+    top: 1000%;
+  }
+}
+@keyframes btn-anim3 {
+  0% {
+    right: -1000%;
+  }
+  50%, 100% {
+    right: 1000%;
+  }
+}
+@keyframes btn-anim4 {
+  0% {
+    bottom: -1000%;
+  }
+  50%, 100% {
+    bottom: 1000%;
+  }
+}
+.eror {
+  color: rgb(222, 0, 0);
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
