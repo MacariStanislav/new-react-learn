@@ -43,12 +43,13 @@ const App = () => {
   return (
     <div className={backgroundClass}>
       {authUser ? (
-        <div> 
+        <> 
+        <button onClick={userSignOut}>aa</button>
           <MainPage /*user={authUser}*//>
           
-        </div>
+        </>
       ) : (
-        <div><Register  />
+        <div><Register/>
         </div>
       )}
     </div>

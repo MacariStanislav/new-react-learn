@@ -1,13 +1,13 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, set } from "firebase/database"; // Для работы с Realtime Database
-import React, { use, useState } from "react";
+import React, {  useState } from "react";
 import { auth, db } from "../../firebase";
 
 const SignUp = ({ setMode }) => { // Получаем setMode через пропс
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [copyPassword, setCopyPassword] = useState("");
-  const [name, setName] = useState(""); // Для ввода имени
+  const [name, setName] = useState(""); 
   const [error, setError] = useState("");
 
   function register(e) {
@@ -25,15 +25,15 @@ const SignUp = ({ setMode }) => { // Получаем setMode через про�
           ref(db, "users/" + user.uid),
           {
             email: user.email,
-            displayName: name, // Имя, введенное пользователем
+            displayName: name,
           }
         )
           .then(() => {
-            setError(""); // Очищаем ошибки
+            setError(""); 
             setEmail("");
             setCopyPassword("");
             setPassword("");
-            setName(""); // Очищаем поле имени
+            setName(""); 
             // Переход на профиль после успешной регистрации
           })
           .catch((error) => {
@@ -103,7 +103,7 @@ const SignUp = ({ setMode }) => { // Получаем setMode через про�
       {error && <p className="eror">{error}</p>}
       <p>
         Already have an account?{" "}
-        <a className="a2" onClick={() => setMode("login")}>Log in!</a> {/* Изменяем mode на login */}
+        <a className="a2" onClick={() => setMode("login")}>Log in!</a> 
       </p>
     </div>
   );

@@ -43,3 +43,20 @@ div.drop {
 .container {
   z-index: 10; /* Убедись, что кнопка будет поверх дождя */
 }
+
+nav {
+  height: 100vh;
+  display: flex;
+  align-items: end;
+}
+nav ul {
+  background-color: rgb(157, 45, 45);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  display: flex;
+  width: 100vh;
+  height: 20vh;
+  justify-content: center;
+  list-style-type: none;
+  gap: 20px;
+}

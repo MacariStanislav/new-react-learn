@@ -79,6 +79,7 @@ $border-radius: 5px;
   }
 
   form {
+    //button glitch
     a,
     a::after {
       padding: $padding-vertical $padding-horizontal;
@@ -181,7 +182,7 @@ $border-radius: 5px;
         transform: translate(0);
       }
     }
-  }
+  }//last button glitch
 
   p:last-child {
     margin-top: 30px;

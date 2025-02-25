@@ -49,7 +49,7 @@ const MainPage = () => {
       new Drop(rx, 0);
       cleanup();
     }
-    requestAnimationFrame(loop);
+    requestAnimationFrame(loop);//бесконечный цыкл
   };
 
   useEffect(() => {
@@ -64,13 +64,10 @@ const MainPage = () => {
   return (
     <>
       <div id="divRain" ref={divRainRef}></div>
-      <div className="container">
-        <header>
-          <nav>
-            <a href="">
-              <img src="" />
-            </a>
-            <ul>
+
+        
+        <nav>
+            <ul className="navbar">
               <li>Digital Vault</li> {/*профиль */}
               {/* сообщения */}
               <li>NeuroLink</li>
@@ -79,10 +76,10 @@ const MainPage = () => {
               {/* настройки профиля. */}
               <li>Neuro Sync</li>
             </ul>
-          </nav>
+            </nav>
           
-        </header>
-      </div>
+       
+    
     </>
   );
 };
