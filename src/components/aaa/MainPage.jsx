@@ -71,13 +71,13 @@ const MainPage = () => {
               <img src="" />
             </a>
             <ul>
-              <li>Digital Vault</li> {/*профиль */}
+              <li className="cyberpunk-button">Digital Vault</li> {/*профиль */}
               {/* сообщения */}
-              <li>NeuroLink</li>
+              <li className="cyberpunk-button">NeuroLink</li>
               {/* Страница или раздел с активными обсуждениями и контентом.*/}
-              <li>Neon Hub</li>
+              <li className="cyberpunk-button">Neon Hub</li>
               {/* настройки профиля. */}
-              <li>Neuro Sync</li>
+              <li className="cyberpunk-button">Neuro Sync</li>
             </ul>
           </nav>
           

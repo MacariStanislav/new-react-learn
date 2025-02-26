@@ -43,3 +43,29 @@ div.drop {
 .container {
   z-index: 10; /* Убедись, что кнопка будет поверх дождя */
 }
+
+.cyberpunk-button{
+  background-color: rgb(23, 21, 48); /*rgb(34, 24, 24), rgb(19, 18, 37) */
+  border: 1px solid #ff00007a;
+  color: #00ffea;   /*#00ffea*/
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.cyberpunk-button:hover{
+  background-color: #640000;
+  border: 1px solid #640000;
+  color: #00ffea;
+  box-shadow: 0 0 10px #ff000044, 0 0 20px #ff000044, 0 0 40px #ff000085;
+}
+.cyberpunk-button:hover::before{
+  transform: translate(-50%, -50%) scale(1);
+}
+.cyberpunk-button:active{
+  transform: scale(0.95);
+}
