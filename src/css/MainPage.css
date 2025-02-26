@@ -44,6 +44,13 @@ div.drop {
   z-index: 10; /* Убедись, что кнопка будет поверх дождя */
 }
 
+/*
+################Pendioneer's code START!######################
+*/
+/* СТИЛИ НА КНОПКИ НАВИГАЦИИ */
+li{
+  user-select: none;
+}
 .cyberpunk-button{
   background-color: rgb(23, 21, 48); /*rgb(34, 24, 24), rgb(19, 18, 37) */
   border: 1px solid #ff00007a;
@@ -69,3 +76,6 @@ div.drop {
 .cyberpunk-button:active{
   transform: scale(0.95);
 }
+/*
+################Pendioneer's code END!######################
+*/
