@@ -67,9 +67,9 @@ const MainPage = () => {
       <div className="container">
         <header>
           <nav>
-            <a href="">
+            {/* <a href="">
               <img src="" />
-            </a>
+            </a> */}
             <ul>
               <li className="cyberpunk-button">Digital Vault</li> {/*профиль */}
               {/* сообщения */}
