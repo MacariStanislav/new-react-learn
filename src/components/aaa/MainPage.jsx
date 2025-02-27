@@ -64,25 +64,17 @@ const MainPage = () => {
   return (
     <>
       <div id="divRain" ref={divRainRef}></div>
-      <div className="container">
-        <header>
-          <nav>
-            {/* <a href="">
-              <img src="" />
-            </a> */}
-            <ul>
-              <li className="cyberpunk-button">Digital Vault</li> {/*профиль */}
-              {/* сообщения */}
-              <li className="cyberpunk-button">NeuroLink</li>
-              {/* Страница или раздел с активными обсуждениями и контентом.*/}
-              <li className="cyberpunk-button">Neon Hub</li>
-              {/* настройки профиля. */}
-              <li className="cyberpunk-button">Neuro Sync</li>
-            </ul>
-          </nav>
-          
-        </header>
-      </div>
+      <nav>
+        <ul className="navbar">
+          <li className="cyberpunk-button">Digital Vault</li> {/*профиль */}
+          {/* сообщения */}
+          <li className="cyberpunk-button">NeuroLink</li>
+          {/* Страница или раздел с активными обсуждениями и контентом.*/}
+          <li className="cyberpunk-button">Neon Hub</li>
+          {/* настройки профиля. */}
+          <li className="cyberpunk-button">Neuro Sync</li>
+        </ul>
+      </nav>
     </>
   );
 };

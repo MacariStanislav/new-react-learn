@@ -1,5 +1,7 @@
 @charset "UTF-8";
-html, body {
+
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -8,14 +10,17 @@ html, body {
 }
 
 #divRain {
-  position: fixed; /* Чтобы дождик был зафиксирован на экране */
+  position: fixed;
+  /* Чтобы дождик был зафиксирован на экране */
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  pointer-events: none; /* Чтобы дождик не блокировал другие элементы */
-  z-index: 0; /* Дождик на самом низу */
+  pointer-events: none;
+  /* Чтобы дождик не блокировал другие элементы */
+  z-index: 0;
+  /* Дождик на самом низу */
 }
 
 div.drop {
@@ -36,25 +41,50 @@ div.drop {
   20% {
     top: 50vh;
   }
+
   100% {
-    top: 140vh; /* Падает до нижней части экрана */
+    top: 140vh;
+    /* Падает до нижней части экрана */
   }
 }
+
 .container {
-  z-index: 10; /* Убедись, что кнопка будет поверх дождя */
+  z-index: 10;
+  /* Убедись, что кнопка будет поверх дождя */
 }
+
+
+nav {
+  height: 100vh;
+  display: flex;
+  align-items: end;
+}
+
+nav ul {
+  margin: 30px;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  display: flex;
+  width: 100vh;
+  height: 10vh;
+  justify-content: center;
+  list-style-type: none;
+  gap: 20px;
+  align-items: center;
+  user-select: none;
+}
+
 
 /*
 ################Pendioneer's code START!######################
 */
 /* СТИЛИ НА КНОПКИ НАВИГАЦИИ */
-li{
-  user-select: none;
-}
-.cyberpunk-button{
-  background-color: rgb(23, 21, 48); /*rgb(34, 24, 24), rgb(19, 18, 37) */
+.cyberpunk-button {
+  background-color: rgb(23, 21, 48);
+  /*rgb(34, 24, 24), rgb(19, 18, 37) */
   border: 1px solid #ff00007a;
-  color: #00ffea;   /*#00ffea*/
+  color: #00ffea;
+  /*#00ffea*/
   padding: 15px 30px;
   font-size: 18px;
   font-weight: bold;
@@ -64,18 +94,21 @@ li{
   overflow: hidden;
 }
 
-.cyberpunk-button:hover{
+.cyberpunk-button:hover {
   background-color: #640000;
   border: 1px solid #640000;
   color: #00ffea;
   box-shadow: 0 0 10px #ff000044, 0 0 20px #ff000044, 0 0 40px #ff000085;
 }
-.cyberpunk-button:hover::before{
+
+.cyberpunk-button:hover::before {
   transform: translate(-50%, -50%) scale(1);
 }
-.cyberpunk-button:active{
+
+.cyberpunk-button:active {
   transform: scale(0.95);
 }
+
 /*
 ################Pendioneer's code END!######################
 */
