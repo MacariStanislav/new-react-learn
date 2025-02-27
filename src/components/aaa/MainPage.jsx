@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import "../../css/MainPage.css"; // Импортируем SCSS
 
-const MainPage = () => {
+const MainPage = ({ userSignOut }) => {
   const divRainRef = useRef(null);
 
   const GetAString = (len) => {
@@ -60,19 +60,23 @@ const MainPage = () => {
       }
     };
   }, []);
-
   return (
     <>
       <div id="divRain" ref={divRainRef}></div>
-      <nav>
-        <ul className="navbar">
-          <li className="cyberpunk-button">Digital Vault</li> {/*профиль */}
+      <nav className="navbar">
+        <ul>
+          <li className="cyberpunkButton">Digital Vault</li> {/*профиль */}
           {/* сообщения */}
-          <li className="cyberpunk-button">NeuroLink</li>
+          <li className="cyberpunkButton">NeuroLink</li>
           {/* Страница или раздел с активными обсуждениями и контентом.*/}
-          <li className="cyberpunk-button">Neon Hub</li>
+          <li className="cyberpunkButton">Neon Hub</li>
           {/* настройки профиля. */}
-          <li className="cyberpunk-button">Neuro Sync</li>
+          <li className="cyberpunkButton">Neuro Sync</li>
+          <li>
+            <button className="cyberpunkButton" onClick={userSignOut}>
+              Sign Out
+            </button>
+          </li>
         </ul>
       </nav>
     </>

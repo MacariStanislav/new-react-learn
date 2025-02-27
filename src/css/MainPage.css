@@ -60,9 +60,16 @@ nav {
   align-items: end;
 }
 
+nav ul:hover {
+  box-shadow: 0 0 30px rgb(138, 43, 226), 0 0 60px rgba(138, 43, 226, 0.7), 0 0 120px rgba(138, 43, 226, 0.5);
+}
+
 nav ul {
+
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 5px 10px rgba(138, 43, 226, 0.5);
   margin: 30px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(25px);
   border-radius: 20px;
   display: flex;
   width: 100vh;
@@ -79,7 +86,7 @@ nav ul {
 ################Pendioneer's code START!######################
 */
 /* СТИЛИ НА КНОПКИ НАВИГАЦИИ */
-.cyberpunk-button {
+.cyberpunkButton {
   background-color: rgb(23, 21, 48);
   /*rgb(34, 24, 24), rgb(19, 18, 37) */
   border: 1px solid #ff00007a;
@@ -94,18 +101,18 @@ nav ul {
   overflow: hidden;
 }
 
-.cyberpunk-button:hover {
+.cyberpunkButton:hover {
   background-color: #640000;
   border: 1px solid #640000;
   color: #00ffea;
   box-shadow: 0 0 10px #ff000044, 0 0 20px #ff000044, 0 0 40px #ff000085;
 }
 
-.cyberpunk-button:hover::before {
+.cyberpunkButton:hover::before {
   transform: translate(-50%, -50%) scale(1);
 }
 
-.cyberpunk-button:active {
+.cyberpunkButton:active {
   transform: scale(0.95);
 }
 
