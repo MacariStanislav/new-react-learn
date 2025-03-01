@@ -71,7 +71,7 @@ const MainPage = ({ userSignOut }) => {
           {/* Страница или раздел с активными обсуждениями и контентом.*/}
           <li className="cyberpunkButton">Neon Hub</li>
           {/* настройки профиля. */}
-          <li className="cyberpunkButton">Neuro Sync</li>
+          <li className="cyberpunkButton">Neuro Sync</li> 
           <li>
             <button className="cyberpunkButton" onClick={userSignOut}>
               Sign Out
