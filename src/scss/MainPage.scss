@@ -1,114 +1,160 @@
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-  
+$primary-bg: rgb(0, 0, 0);
+$hover-bg: #640000;
+$border-color: #ff00007a;
 
-  
-  #divRain {
-    
-    position: fixed; /* Чтобы дождик был зафиксирован на экране */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    pointer-events: none; /* Чтобы дождик не блокировал другие элементы */
-    z-index: 0; /* Дождик на самом низу */
+$shadow-default: rgba(0, 0, 0, 0.8);
+$shadow-hover: rgba(182, 104, 104, 0.5);
+$shadow-intense: rgba(138, 43, 226, 0.7);
+$shadow-strong: rgba(138, 43, 226, 1);
+
+//киберпанк кнопки
+$primary-color: #7c00a5d0;
+$secondary-color: #0e0039a6;
+$text-shadow-color-1: #f8f005;
+$text-shadow-color-2: #4a00f6;
+$font-size: 20px;
+$letter-spacing: 3px;
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#divRain {
+  position: fixed; /* Чтобы дождик был зафиксирован на экране */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none; /* Чтобы дождик не блокировал другие элементы */
+  z-index: 0; /* Дождик на самом низу */
+}
+
+div.drop {
+  position: absolute;
+  color: darkblue;
+  width: 5px;
+  height: 150px;
+  top: 0px;
+  left: 0px;
+  animation: drip 4s linear infinite;
+}
+
+.leader {
+  color: lightblue;
+  user-select: none;
+}
+
+@keyframes drip {
+  20% {
+    top: 50vh;
   }
-  
-  div.drop {
-    position: absolute;
-    color: darkblue;
-    width: 5px;
-    height: 150px;
-    top: 0px;
-    left: 0px;
-    animation: drip 4s linear infinite; 
+  100% {
+    top: 140vh; /* Падает до нижней части экрана */
   }
-  
-  .leader {
-    color: lightblue;
-  }
-  
-  @keyframes drip {
-    20% {
-      top: 50vh;
-    }
-    100% {
-      top: 140vh; /* Падает до нижней части экрана */
-    }
-  }
-  
-  .container {
-  
-    z-index: 10; /* Убедись, что кнопка будет поверх дождя */
-   
-  }
-  $primary-bg: rgb(23, 21, 48);
-  $hover-bg: #640000;
-  $border-color: #ff00007a;
-  $text-color: #00ffea;
-  $shadow-default: rgba(0, 0, 0, 0.8);
-  $shadow-hover: rgba(138, 43, 226, 0.5);
-  $shadow-intense: rgba(138, 43, 226, 0.7);
-  $shadow-strong: rgba(138, 43, 226, 1);
-  
-  nav {
-    height: 100vh;
+}
+.allMain {
+  height: 100vh;
+  display: flex;
+  width: 80vw;
+  margin: 0 auto;
+  ul {
+    width: 80vw;
     display: flex;
-    align-items: end;
-  
-    ul {
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
-      box-shadow: 0 10px 30px $shadow-default, 0 5px 10px $shadow-hover;
-      margin: 30px;
-      backdrop-filter: blur(25px);
-      border-radius: 20px;
-      display: flex;
-      width: 100vh;
-      height: 10vh;
-      justify-content: center;
-      list-style-type: none;
-      gap: 20px;
-      align-items: center;
-      user-select: none;
-  
-      &:hover {
-        box-shadow: 0 0 30px $shadow-strong, 0 0 60px $shadow-intense, 0 0 120px $shadow-hover;
-      }
-    }
-  }
-  
-  .cyberpunkButton {
-    background-color: $primary-bg;
-    border: 1px solid $border-color;
-    color: $text-color;
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-  
+    position: fixed;
+    bottom: 0vh;
+    align-items: center;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 100px 30px $shadow-default, 50px 5px 100px $shadow-hover;
+    backdrop-filter: blur(8px);
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    display: flex;
+    height: 15vh;
+    justify-content: center;
+    list-style-type: none;
+    gap: 45px;
+    align-items: center;
+    user-select: none;
     &:hover {
-      background-color: $hover-bg;
-      border: 1px solid $hover-bg;
-      color: $text-color;
-      box-shadow: 0 0 10px $border-color, 0 0 20px $border-color, 0 0 40px $hover-bg;
-  
-      &::before {
-        transform: translate(-50%, -50%) scale(1);
-      }
-    }
-  
-    &:active {
-      transform: scale(0.95);
+      box-shadow: 0 0 30px $shadow-strong, 0 0 60px $shadow-intense,
+        0 0 120px $shadow-hover;
     }
   }
+}
+
+.cyberpunkButton {
+  cursor: pointer;
+  padding: 15px 20px;
+  font-size: $font-size;
+  background: linear-gradient(45deg, transparent 5%, $primary-color 5%);
+  border: 0;
+  font-weight: 600;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing;
+  line-height: 1;
+  box-shadow: 6px 0px 0px $secondary-color;
+  outline: transparent;
+  position: relative;
+  text-decoration: none;
+&:hover span{
+  opacity: 0;
+}
+}
+
+
+// Эффект при наведении на ссылку
+.cyberpunkButton::after {
   
+  
+  content: attr(data-text);
+  --slice-0: inset(70% 70% 70% 70%);
+  --slice-1: inset(0 10%  80% 0);
+  --slice-2: inset(0 15%  60% 0);
+  --slice-3: inset(0 15%  55% 0);
+  --slice-4: inset(0 15%  70% 0);
+  --slice-5: inset(0 15% 50% 0);
+  
+  display: block;
+  position: absolute;
+  
+  top: 30%;
+  left: 10%;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 3%,
+    $secondary-color 3%,
+    $secondary-color 5%,
+    $primary-color 5%
+  );
+  text-shadow: -3px -3px 0px $text-shadow-color-1,
+    3px 3px 0px $text-shadow-color-2;
+  clip-path: var(--slice-0);
+}
+
+// Анимация для эффекта на ссылке
+.cyberpunkButton:hover::after {
+ 
+  animation: glitch 1s steps(2, end) infinite;
+}
+@keyframes glitch {
+  0% { clip-path: var(--slice-1); transform: translate(-5px, 5px); }
+  10% { clip-path: var(--slice-3); transform: translate(10px, 8px); }
+  20% { clip-path: var(--slice-2); transform: translate(-15px, 6px); }
+  30% { clip-path: var(--slice-5); transform: translate(5px, 10px); }
+  40% { clip-path: var(--slice-1); transform: translate(-8px, 12px); }
+  50% { clip-path: var(--slice-3); transform: translate(12px, 14px); }
+  60% { clip-path: var(--slice-4); transform: translate(-10px, 16px); }
+  70% { clip-path: var(--slice-2); transform: translate(8px, 18px); }
+  80% { clip-path: var(--slice-5); transform: translate(-5px, 20px); }
+  90% { clip-path: var(--slice-1); transform: translate(6px, 22px); }
+  100% { clip-path: var(--slice-3); transform: translate(0, 25px); }
+}

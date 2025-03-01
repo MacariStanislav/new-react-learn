@@ -63,25 +63,38 @@ const MainPage = ({ userSignOut }) => {
   return (
     <>
       <div id="divRain" ref={divRainRef}></div>
-      <nav className="navbar">
+      <div className="allMain">
         <ul>
-          <li className="cyberpunkButton">Digital Vault</li> {/*профиль */}
-          {/* сообщения */}
-          <li className="cyberpunkButton">NeuroLink</li>
-          {/* Страница или раздел с активными обсуждениями и контентом.*/}
-          <li className="cyberpunkButton">Neon Hub</li>
-          {/* настройки профиля. */}
-          <li className="cyberpunkButton">Neuro Sync</li>
+          <li className="cyberpunkButton" data-text="Digital Vault">
+            <span>Digital Vault</span>
+          </li>
+
+          <li className="cyberpunkButton" data-text="NeuroLink">
+            <span>NeuroLink</span>
+          </li>
+
+          <li className="cyberpunkButton" data-text="Neon Hub">
+            <span>Neon Hub</span>
+          </li>
+
+          <li className="cyberpunkButton" data-text="Neuro Sync">
+            <span>Neuro Sync</span>
+          </li>
+
           <li>
-            <button className="cyberpunkButton" onClick={userSignOut}>
-              Sign Out
+            <button
+              className="cyberpunkButton"
+              onClick={userSignOut}
+              data-text={"Sign Out"}
+            ><span>  Sign Out</span>
+            
             </button>
           </li>
         </ul>
-      </nav>
+      </div>
 
       {/* import { useNavigate } from "react-router-dom"; */}
-{/* const Profile = () => {  //для того чтобы в будущем переключать страницы в мейне не через состояния а по роутеру 
+      {/* const Profile = () => {  //для того чтобы в будущем переключать страницы в мейне не через состояния а по роутеру 
   const navigate = useNavigate(); // Хук для навигации
 
   return (
