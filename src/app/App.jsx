@@ -48,7 +48,7 @@ const App = () => {
         </div>
       ) : (
         <div>
-          <Register />
+          <Register />dd
         </div>
       )}
     </div>
