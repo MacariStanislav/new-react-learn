@@ -1,7 +1,8 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, set } from "firebase/database"; // Для работы с Realtime Database
 import React, {  useState } from "react";
-import { auth, db } from "../../firebase";
+import { auth, db } from "../../../firebase";
+import "../../../css/Register.css";
 
 const SignUp = ({ setMode }) => { // Получаем setMode через пропс
   const [email, setEmail] = useState("");

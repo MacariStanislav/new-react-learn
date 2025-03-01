@@ -1,0 +1,50 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Profile from "./Profile";
+import Home from "./Home";
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profile/*" element={<Profile />} /> {/* Важно: добавили `/*` */}
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+
+Что значит path="/profile/*"?
+
+Это говорит React Router, что внутри Profile будут вложенные маршруты.
+
+
+
+import { Routes, Route, Link } from "react-router-dom";
+import ProfileMain from "./ProfileMain";
+import ProfileSettings from "./ProfileSettings";
+
+const Profile = () => {
+  return (
+    <div>
+      <h1>Профиль</h1>
+      <nav>
+        <Link to="/profile">Главная</Link>
+        <Link to="/profile/settings">Настройки</Link>
+      </nav>
+
+      {/* Здесь будут вложенные страницы */}
+      <Routes>
+        <Route path="/" element={<ProfileMain />} />
+        <Route path="settings" element={<ProfileSettings />} />
+      </Routes>
+    </div>
+  );
+};
+
+export default Profile;
+
+Если ты заходишь на /profile → показывается ProfileMain.
+Если переходишь на /profile/settings → показывается ProfileSettings.
+Link to="/profile/settings" меняет только часть страницы, не перезагружая её.

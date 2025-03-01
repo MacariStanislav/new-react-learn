@@ -48,22 +48,67 @@ html, body {
     z-index: 10; /* Убедись, что кнопка будет поверх дождя */
    
   }
- 
-   nav{
+  $primary-bg: rgb(23, 21, 48);
+  $hover-bg: #640000;
+  $border-color: #ff00007a;
+  $text-color: #00ffea;
+  $shadow-default: rgba(0, 0, 0, 0.8);
+  $shadow-hover: rgba(138, 43, 226, 0.5);
+  $shadow-intense: rgba(138, 43, 226, 0.7);
+  $shadow-strong: rgba(138, 43, 226, 1);
+  
+  nav {
     height: 100vh;
     display: flex;
     align-items: end;
-    ul{
-      background-color: rgb(157, 45, 45);
-      backdrop-filter: blur(10px);
+  
+    ul {
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 10px 30px $shadow-default, 0 5px 10px $shadow-hover;
+      margin: 30px;
+      backdrop-filter: blur(25px);
       border-radius: 20px;
       display: flex;
       width: 100vh;
-      height: 20vh;
+      height: 10vh;
       justify-content: center;
       list-style-type: none;
       gap: 20px;
-      
+      align-items: center;
+      user-select: none;
+  
+      &:hover {
+        box-shadow: 0 0 30px $shadow-strong, 0 0 60px $shadow-intense, 0 0 120px $shadow-hover;
+      }
     }
- 
   }
+  
+  .cyberpunkButton {
+    background-color: $primary-bg;
+    border: 1px solid $border-color;
+    color: $text-color;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  
+    &:hover {
+      background-color: $hover-bg;
+      border: 1px solid $hover-bg;
+      color: $text-color;
+      box-shadow: 0 0 10px $border-color, 0 0 20px $border-color, 0 0 40px $hover-bg;
+  
+      &::before {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  

@@ -49,7 +49,7 @@ const MainPage = ({ userSignOut }) => {
       new Drop(rx, 0);
       cleanup();
     }
-    requestAnimationFrame(loop);//бесконечный цыкл
+    requestAnimationFrame(loop); //бесконечный цыкл
   };
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const MainPage = ({ userSignOut }) => {
           {/* Страница или раздел с активными обсуждениями и контентом.*/}
           <li className="cyberpunkButton">Neon Hub</li>
           {/* настройки профиля. */}
-          <li className="cyberpunkButton">Neuro Sync</li> 
+          <li className="cyberpunkButton">Neuro Sync</li>
           <li>
             <button className="cyberpunkButton" onClick={userSignOut}>
               Sign Out
@@ -79,6 +79,18 @@ const MainPage = ({ userSignOut }) => {
           </li>
         </ul>
       </nav>
+
+      {/* import { useNavigate } from "react-router-dom"; */}
+{/* const Profile = () => {  //для того чтобы в будущем переключать страницы в мейне не через состояния а по роутеру 
+  const navigate = useNavigate(); // Хук для навигации
+
+  return (
+    <div>
+      <h1>Профиль</h1>
+      <button onClick={() => navigate("/messages")}>Перейти в сообщения</button>
+    </div>
+  );
+}; */}
     </>
   );
 };

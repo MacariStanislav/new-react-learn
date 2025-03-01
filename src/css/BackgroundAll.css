@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 .unauthenticated {
   position: relative;
   /* Чтобы z-index работал */
@@ -24,7 +23,7 @@
   /* Этот слой будет ниже, чем контент */
 }
 
-.unauthenticated>* {
+.unauthenticated > * {
   position: relative;
   /* Контент внутри будет выше, чем псевдоэлемент */
   z-index: 2;
@@ -36,7 +35,4 @@
   background-size: cover;
   background-position: center;
   height: 100vh;
-  display: flex;
-  justify-content: start;
-  align-items: center;
 }
