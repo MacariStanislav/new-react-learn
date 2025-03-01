@@ -1,0 +1,55 @@
+body {
+    cursor: none; // Отключаем стандартный курсор
+  }
+  
+
+  body, button, a, input, textarea {
+    cursor: none !important; // Отключаем стандартный курсор
+  }
+  
+  // Убираем изменение курсора в инпутах и в выпадающих списках
+  
+  
+  // Хак для выпадающего списка автозаполнения (Chrome)
+  input:-webkit-autofill {
+    cursor: none !important;
+  }
+  
+  // Основные стили кастомного курсора
+  
+
+  .cursor {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    mix-blend-mode: normal;
+    z-index: 1000;
+  
+    #cursor {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      z-index: 100;
+      transition: transform 0.15s ease-out;
+      filter: drop-shadow(0 0 20px #008bbd);
+    transform: scale(1.1);
+    }
+  
+    &.hover {
+      transform: scale(1.3);
+    }
+  }
+  
+  body, button, a, li, span, div {
+    cursor: none !important;
+  }
+  
+  
+  // Эффект при наведении на кнопки и ссылки
+  #cursor.hover {
+    filter: drop-shadow(0 0 20px #bf00ff);
+    transform: scale(2.4);
+  }
+  
+  

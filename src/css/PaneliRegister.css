@@ -7,7 +7,6 @@
 .paneliVibora a::after {
   width: 200px;
   font-size: 25px;
-  cursor: pointer;
   display: flex;
   justify-content: center;
   padding: 16px 20px;
