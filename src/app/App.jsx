@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase"; // Импорт настроек Firebase
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import MainPage from '../components/aaa/MainPage'
+import MainPage from "../components/aaa/MainPage";
 
 // Импорт компонентов
 
 import Register from "../components/auth/Register";
 
 // Импорт CSS
-import '../css/App.css';
+import "../css/App.css";
 
 const App = () => {
   const [authUser, setAuthUser] = useState(null); // Состояние для авторизации пользователя
@@ -43,13 +43,12 @@ const App = () => {
   return (
     <div className={backgroundClass}>
       {authUser ? (
-        <> 
-        <button onClick={userSignOut}>aa</button>
-          <MainPage /*user={authUser}*//>
-          
-        </>
+        <div>
+          <MainPage /*user={authUser}*/ userSignOut={userSignOut} />
+        </div>
       ) : (
-        <div><Register/>
+        <div>
+          <Register />
         </div>
       )}
     </div>
