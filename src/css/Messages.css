@@ -1,6 +1,6 @@
 .chat-container {
   display: flex;
-  height: 90vh;
+  height: 50vh;
   background: #121212;
   color: white;
 }
@@ -11,6 +11,18 @@
   background: #1f1f1f;
   padding: 15px;
   border-right: 2px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-sidebar h3 {
+  margin-bottom: 15px;
+}
+
+.chat-users-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 15px;
 }
 
 .user-item {
@@ -19,10 +31,15 @@
   padding: 12px;
   cursor: pointer;
   transition: 0.3s;
+  border-radius: 5px;
 }
 
 .user-item:hover {
   background: #292929;
+}
+
+.user-item.active {
+  background: #007bff;
 }
 
 .avatar {
@@ -30,6 +47,23 @@
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.new-chat-button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 /* Основная часть чата */
@@ -46,6 +80,19 @@
   background: #333;
   border-bottom: 2px solid #444;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.delete-chat-button {
+  background: #ff4d4d;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
 }
 
 /* Сообщения */
@@ -55,6 +102,7 @@
   padding: 15px;
   display: flex;
   flex-direction: column;
+  max-height: 29vh; /* Ограничиваем высоту чата */
 }
 
 .message {
@@ -77,6 +125,10 @@
   max-width: 60%;
 }
 
+.my-message {
+  align-self: flex-end;
+}
+
 .my-message .message-content {
   background: #007bff;
 }
@@ -90,14 +142,6 @@
   font-size: 0.75rem;
   color: #bbb;
   text-align: right;
-}
-
-/* Индикатор набора */
-.typing-indicator {
-  padding: 5px;
-  font-size: 0.9rem;
-  color: #aaa;
-  text-align: center;
 }
 
 /* Поле ввода */
@@ -120,6 +164,54 @@ input {
   background: #007bff;
   padding: 12px 15px;
   margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.chat-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+/* Модальное окно для нового чата */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #1f1f1f;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.new-users-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 15px;
+}
+
+.close-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #ff4d4d;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
