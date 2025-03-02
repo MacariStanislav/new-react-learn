@@ -1,21 +1,15 @@
-body {
-    cursor: none; // Отключаем стандартный курсор
+
+
+  body, button, a, input, textarea {
+    cursor: none !important; 
   }
   
 
-  body, button, a, input, textarea {
-    cursor: none !important; // Отключаем стандартный курсор
-  }
-  
-  // Убираем изменение курсора в инпутах и в выпадающих списках
-  
-  
-  // Хак для выпадающего списка автозаполнения (Chrome)
   input:-webkit-autofill {
     cursor: none !important;
   }
   
-  // Основные стили кастомного курсора
+
   
 
   .cursor {
