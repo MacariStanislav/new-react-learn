@@ -1,20 +1,66 @@
+import React, { useState } from "react";
+
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, set } from "firebase/database"; // Для работы с Realtime Database
-import React, {  useState } from "react";
+import { ref, set, get } from "firebase/database";
 import { auth, db } from "../../../firebase";
+
 import "../../../css/Register.css";
 
-const SignUp = ({ setMode }) => { // Получаем setMode через пропс
+const SignUp = ({ setMode, setUserName }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [copyPassword, setCopyPassword] = useState("");
-  const [name, setName] = useState(""); 
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  function register(e) {
+  // Проверка: существует ли уже такое имя
+  const checkNameExists = async (name) => {
+    const snapshot = await get(ref(db, "users"));
+    if (snapshot.exists()) {
+      const users = snapshot.val();
+      return Object.values(users).some((user) => user.displayName === name);
+    }
+    return false;
+  };
+
+  // Проверка: существует ли уже такой email
+  const checkEmailExists = async (email) => {
+    const snapshot = await get(ref(db, "users"));
+    if (snapshot.exists()) {
+      const users = snapshot.val();
+      return Object.values(users).some((user) => user.email === email);
+    }
+    return false;
+  };
+
+  async function register(e) {
     e.preventDefault();
-    if (copyPassword !== password) {
+    setError("");
+
+    if (password !== copyPassword) {
       setError("Passwords didn't match");
+      return;
+    }
+
+    if (!name.trim()) {
+      setError("Name cannot be empty");
+      return;
+    }
+
+    if (!email.trim()) {
+      setError("Email cannot be empty");
+      return;
+    }
+
+    const nameExists = await checkNameExists(name);
+    if (nameExists) {
+      setError("This name is already taken. Choose another one.");
+      return;
+    }
+
+    const emailExists = await checkEmailExists(email);
+    if (emailExists) {
+      setError("This email is already registered. Try logging in.");
       return;
     }
 
@@ -22,24 +68,16 @@ const SignUp = ({ setMode }) => { // Получаем setMode через про�
       .then((userCredential) => {
         const user = userCredential.user;
 
-        set(
-          ref(db, "users/" + user.uid),
-          {
-            email: user.email,
-            displayName: name,
-          }
-        )
-          .then(() => {
-            setError(""); 
-            setEmail("");
-            setCopyPassword("");
-            setPassword("");
-            setName(""); 
-            // Переход на профиль после успешной регистрации
-          })
-          .catch((error) => {
-            setError("Failed to save user data.");
-          });
+        return set(ref(db, "users/" + user.uid), {
+          email: user.email,
+          displayName: name,
+        }).then(() => {
+          setUserName(name);
+          setEmail("");
+          setCopyPassword("");
+          setPassword("");
+          setName("");
+        });
       })
       .catch((error) => {
         setError("Failed to create account.");
@@ -49,13 +87,11 @@ const SignUp = ({ setMode }) => { // Получаем setMode через про�
   return (
     <div className="login-box">
       <p>Create an account</p>
-      <form >
+      <form>
         <div className="user-box">
           <input
-            required=""
-            name="email"
+            required
             type="email"
-           
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -63,10 +99,8 @@ const SignUp = ({ setMode }) => { // Получаем setMode через про�
         </div>
         <div className="user-box">
           <input
-            required=""
-            name="password"
+            required
             type="password"
-           
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -74,10 +108,8 @@ const SignUp = ({ setMode }) => { // Получаем setMode через про�
         </div>
         <div className="user-box">
           <input
-            required=""
-            name="copyPassword"
+            required
             type="password"
-         
             value={copyPassword}
             onChange={(e) => setCopyPassword(e.target.value)}
           />
@@ -85,30 +117,26 @@ const SignUp = ({ setMode }) => { // Получаем setMode через про�
         </div>
         <div className="user-box">
           <input
-            required=""
-            name="name"
+            required
             type="text"
-           
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <label>Name</label>
         </div>
         <a href="#" onClick={register} className="kiberpunk">
-        
           Create Account
         </a>
-        
-          
       </form>
       {error && <p className="eror">{error}</p>}
       <p>
         Already have an account?{" "}
-        <a className="a2" onClick={() => setMode("login")}>Log in!</a> 
+        <a className="a2" onClick={() => setMode("login")}>
+          Log in!
+        </a>
       </p>
     </div>
   );
 };
 
 export default SignUp;
-

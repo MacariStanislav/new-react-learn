@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+
 import SignUp from "./singUp/SignUp";
 import SignIn from "./login/SignIn";
 
 import "../../css/PaneliRegister.css";
+
 const Register = () => {
   const [mode, setMode] = useState("");
   console.log(mode);

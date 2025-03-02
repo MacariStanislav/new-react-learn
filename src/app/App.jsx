@@ -1,67 +1,93 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate,} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
 import { auth } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+
+import { getUserNameFromDB } from "../utils/getUserNameFromDB";
+import routes from "../routs/routes";
+
 import MainPage from "../components/mainPages/MainPage";
 import Register from "../components/auth/Register";
-import routes from "../routs/routes"; // Подключаем маршруты
+import BackgroundWrapper from "./styleControl/BackgroundWrapper";
+
 import "../css/BackgroundAll.css";
-import BackgroundWrapper from "./styleControl/BackgroundWrapper";//для backgraund
 
 const App = () => {
-  const [authUser, setAuthUser] = useState(//проверка зареган ли пользователь через localStorage
-    JSON.parse(localStorage.getItem("authUser")) || null
+  const [authUser, setAuthUser] = useState(
+    JSON.parse(localStorage.getItem("authUser"))
   );
 
+  const [userName, setUserName] = useState(null);
+
+  // Проверяем, авторизован ли пользователь
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setAuthUser(user);
-        localStorage.setItem("authUser", JSON.stringify(user));//сохраняем данные в localStorage чтобы не терять данные после перезагрузки
+        localStorage.setItem("authUser", JSON.stringify(user));
+
+        // Получаем имя пользователя из базы
+        const fetchedUserName = await getUserNameFromDB(user.uid);
+        setUserName(fetchedUserName);
       } else {
         setAuthUser(null);
         localStorage.removeItem("authUser");
+        setUserName(null);
       }
     });
 
     return () => unsubscribe();
   }, []);
 
+  // Выход пользователя
   const userSignOut = () => {
     signOut(auth)
       .then(() => {
         localStorage.removeItem("authUser");
         setAuthUser(null);
+        setUserName(null);
       })
       .catch((error) => {
-        alert("Error: " + error.message);
+        alert("Ошибка выхода: " + error.message);
       });
   };
 
   return (
     <Router>
       <BackgroundWrapper authUser={authUser}>
-        {/* Обернули все в компонент с фоном */}
         <Routes>
+          {/* Если пользователь авторизован, отправляем его на главную */}
           <Route
             path={routes.standart}
             element={<Navigate to={authUser ? routes.main : routes.register} />}
           />
+
+          {/* Главная страница */}
           <Route
             path={routes.main}
             element={
               authUser ? (
-                <MainPage userSignOut={userSignOut} />
+                <MainPage userSignOut={userSignOut} userName={userName} />
               ) : (
                 <Navigate to={routes.register} />
               )
             }
           />
+
+          {/* Регистрация */}
           <Route
             path={routes.register}
             element={authUser ? <Navigate to={routes.main} /> : <Register />}
           />
-          <Route path="*" element={<Navigate to={routes.standart} />} />{/*если человек прищёл по какому-то URl не правильный на мой сайт его перекинет на standart роут */}
+
+          {/* Если URL не найден, отправляем на стандартный маршрут */}
+          <Route path="*" element={<Navigate to={routes.standart} />} />
         </Routes>
       </BackgroundWrapper>
     </Router>

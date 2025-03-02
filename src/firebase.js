@@ -13,12 +13,11 @@ const firebaseConfig = {
   projectId: "stas-fb38d",
   storageBucket: "stas-fb38d.firebasestorage.app",
   messagingSenderId: "862571568189",
-  appId: "1:862571568189:web:7a46592e84a72fb4d29e54"
+  appId: "1:862571568189:web:7a46592e84a72fb4d29e54",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-
-export const db=getDatabase(app)
-export const auth=getAuth(app)
+export const db = getDatabase(app);
+export const auth = getAuth(app);

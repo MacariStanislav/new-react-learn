@@ -1,7 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import "../../css/MainPage.css"; // Импортируем SCSS
 
-const MainPage = ({ userSignOut }) => {
+import Navbar from "./navbar/Navbar";
+import Messages from "./messages/Messages";
+
+import "../../css/MainPage.css";
+
+const MainPage = ({ userSignOut, userName }) => {
+ 
   const divRainRef = useRef(null);
 
   const GetAString = (len) => {
@@ -64,30 +69,17 @@ const MainPage = ({ userSignOut }) => {
     <>
       <div id="divRain" ref={divRainRef}></div>
       <div className="allMain">
+        <Messages userName={userName} />
+
         <ul>
-          <li className="cyberpunkButton" data-text="Digital Vault">
-            <span>Digital Vault</span>
-          </li>
-
-          <li className="cyberpunkButton" data-text="NeuroLink">
-            <span>NeuroLink</span>
-          </li>
-
-          <li className="cyberpunkButton" data-text="Neon Hub">
-            <span>Neon Hub</span>
-          </li>
-
-          <li className="cyberpunkButton" data-text="Neuro Sync">
-            <span>Neuro Sync</span>
-          </li>
-
+          <Navbar />
           <li>
             <button
               className="cyberpunkButton"
               onClick={userSignOut}
               data-text={"Sign Out"}
-            ><span>  Sign Out</span>
-            
+            >
+              <span> Sign Out</span>
             </button>
           </li>
         </ul>
