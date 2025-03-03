@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db } from "../../../firebase";
-import { ref, push, onValue, remove } from "firebase/database";
+import { ref, push, onValue, remove, onChildAdded, onChildChanged } from "firebase/database";
 import "../../../css/Messages.css";
 
 const Messages = ({ userName }) => {
@@ -11,10 +11,11 @@ const Messages = ({ userName }) => {
   const [onlineStatus, setOnlineStatus] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
   const [showNewChatModal, setShowNewChatModal] = useState(false);
+  const [chatUsers, setChatUsers] = useState([]);
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
 
-  // Загружаем пользователей и их онлайн-статус
+  // Загружаем пользователей
   useEffect(() => {
     const usersRef = ref(db, "users");
     onValue(usersRef, (snapshot) => {
@@ -22,16 +23,47 @@ const Messages = ({ userName }) => {
         setUsers(Object.values(snapshot.val()));
       }
     });
-
-    const statusRef = ref(db, "status");
-    onValue(statusRef, (snapshot) => {
-      if (snapshot.exists()) {
-        setOnlineStatus(snapshot.val());
-      }
-    });
   }, []);
 
-  // Загружаем сообщения
+  // Загружаем статусы пользователей в реальном времени
+  useEffect(() => {
+    const statusRef = ref(db, "status");
+
+    const handleStatusUpdate = (snapshot) => {
+      setOnlineStatus((prevStatus) => ({
+        ...prevStatus,
+        [snapshot.key]: snapshot.val(),
+      }));
+    };
+
+    onChildAdded(statusRef, handleStatusUpdate);
+    onChildChanged(statusRef, handleStatusUpdate);
+  }, []);
+
+  // Загружаем список чатов пользователя
+ // Загружаем список чатов пользователя (убираем дубли)
+useEffect(() => {
+  const messagesRef = ref(db, "messages");
+
+  onValue(messagesRef, (snapshot) => {
+    if (snapshot.exists()) {
+      const chatKeys = Object.keys(snapshot.val());
+      const userChats = new Set(); // Используем Set для удаления дубликатов
+
+      chatKeys.forEach((key) => {
+        if (key.includes(userName)) {
+          const chatUser = key.replace(`${userName}_`, "").replace(`_${userName}`, "");
+          userChats.add(chatUser); // Set не допускает дубликатов
+        }
+      });
+
+      setChatUsers(Array.from(userChats)); // Преобразуем Set обратно в массив
+    }
+  });
+}, [userName]);
+
+
+  // Загружаем сообщения с выбранным пользователем
   useEffect(() => {
     if (selectedUser) {
       const messagesRef = ref(db, `messages/${userName}_${selectedUser}`);
@@ -39,7 +71,7 @@ const Messages = ({ userName }) => {
         if (snapshot.exists()) {
           setMessages(Object.values(snapshot.val()));
         } else {
-          setMessages([]); // Если переписки нет, очищаем сообщения
+          setMessages([]);
         }
       });
     }
@@ -66,25 +98,16 @@ const Messages = ({ userName }) => {
   // Удаление переписки
   const deleteChat = () => {
     if (selectedUser) {
-      const chatRef = ref(db, `messages/${userName}_${selectedUser}`);
-      remove(chatRef).then(() => {
-        setSelectedUser(null); // Сбрасываем выбранного пользователя
-        setMessages([]); // Очищаем сообщения
-      });
-    }
-  };
+      const chatRef1 = ref(db, `messages/${userName}_${selectedUser}`);
+      const chatRef2 = ref(db, `messages/${selectedUser}_${userName}`);
 
-  // Получаем список пользователей, с которыми уже есть переписка
-  const getChatUsers = () => {
-    const chatUsers = users.filter((u) => {
-      return (
-        u.displayName &&
-        u.displayName !== userName &&
-        (messages.some((msg) => msg.sender === u.displayName) ||
-          messages.some((msg) => msg.receiver === u.displayName))
-      );
-    });
-    return chatUsers;
+      remove(chatRef1);
+      remove(chatRef2);
+
+      setChatUsers((prev) => prev.filter((u) => u !== selectedUser));
+      setSelectedUser(null);
+      setMessages([]);
+    }
   };
 
   // Фильтрация пользователей для поиска новых контактов
@@ -92,7 +115,7 @@ const Messages = ({ userName }) => {
     (u) =>
       u.displayName &&
       u.displayName !== userName &&
-      !getChatUsers().some((chatUser) => chatUser.displayName === u.displayName) &&
+      !chatUsers.includes(u.displayName) &&
       u.displayName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -102,22 +125,22 @@ const Messages = ({ userName }) => {
       <div className="chat-sidebar">
         <h3>Chats</h3>
         <div className="chat-users-list">
-          {getChatUsers().map((u, index) => (
+          {chatUsers.map((user, index) => (
             <div
               key={index}
-              className={`user-item ${selectedUser === u.displayName ? "active" : ""}`}
-              onClick={() => setSelectedUser(u.displayName)}
+              className={`user-item ${selectedUser === user ? "active" : ""}`}
+              onClick={() => setSelectedUser(user)}
             >
               <div
                 className="status-indicator"
-                style={{ background: onlineStatus[u.displayName] ? "green" : "red" }}
+                style={{ background: onlineStatus[user] === "online" ? "green" : "red" }}
               ></div>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 alt="user-icon"
                 className="avatar"
               />
-              <span>{u.displayName}</span>
+              <span>{user}</span>
             </div>
           ))}
         </div>
@@ -134,7 +157,7 @@ const Messages = ({ userName }) => {
               <h3>Chat with {selectedUser}</h3>
               <div
                 className="status-indicator"
-                style={{ background: onlineStatus[selectedUser] ? "green" : "red" }}
+                style={{ background: onlineStatus[selectedUser] === "online" ? "green" : "red" }}
               ></div>
               <button className="delete-chat-button" onClick={deleteChat}>
                 Delete Chat
@@ -195,23 +218,7 @@ const Messages = ({ userName }) => {
             />
             <div className="new-users-list">
               {filteredNewUsers.map((u, index) => (
-                <div
-                  key={index}
-                  className="user-item"
-                  onClick={() => {
-                    setSelectedUser(u.displayName);
-                    setShowNewChatModal(false);
-                  }}
-                >
-                  <div
-                    className="status-indicator"
-                    style={{ background: onlineStatus[u.displayName] ? "green" : "red" }}
-                  ></div>
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                    alt="user-icon"
-                    className="avatar"
-                  />
+                <div key={index} className="user-item" onClick={() => setSelectedUser(u.displayName)}>
                   <span>{u.displayName}</span>
                 </div>
               ))}

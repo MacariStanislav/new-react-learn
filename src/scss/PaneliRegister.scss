@@ -13,6 +13,7 @@ $padding-horizontal: 20px;
 $border-radius: 5px;
 
 .paneliVibora {
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;

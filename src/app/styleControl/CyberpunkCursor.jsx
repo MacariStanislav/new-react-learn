@@ -13,14 +13,14 @@ const CyberpunkCursor = () => {
     const handleMouseMove = (e) => {
       if (!isVisible) {
         setIsVisible(true);
-        gsap.to(cursor, { opacity: 1, duration: 0.4, ease: "power2.out" });
+        gsap.to(cursor, { opacity: 1, duration: 0, ease: "power0.out" });
       }
 
       gsap.to(cursor, {
         duration: 0.1,
         x: e.clientX - 12, // Центр курсора (24 / 2)
         y: e.clientY - 12,
-        ease: "power1.out",
+        ease: "power0.out",
       });
     };
 
