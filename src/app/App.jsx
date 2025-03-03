@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { ref, set, onDisconnect } from "firebase/database";
+import { auth, db } from "../firebase";
 import { getUserNameFromDB } from "../utils/getUserNameFromDB";
 import routes from "../routs/routes";
 import MainPage from "../components/mainPages/MainPage";
@@ -24,7 +25,14 @@ const App = () => {
       if (user) {
         setAuthUser(user);
         localStorage.setItem("authUser", JSON.stringify(user));
-        setUserName(await getUserNameFromDB(user.uid));
+
+        const name = await getUserNameFromDB(user.uid);
+        setUserName(name);
+
+        // Обновляем статус в Firebase
+        const statusRef = ref(db, `status/${name}`);
+        set(statusRef, "online");
+        onDisconnect(statusRef).set("offline");
       } else {
         setAuthUser(null);
         localStorage.removeItem("authUser");
@@ -38,6 +46,9 @@ const App = () => {
     try {
       await signOut(auth);
       localStorage.removeItem("authUser");
+      if (userName) {
+        set(ref(db, `status/${userName}`), "offline");
+      }
       setAuthUser(null);
       setUserName(null);
     } catch (error) {
