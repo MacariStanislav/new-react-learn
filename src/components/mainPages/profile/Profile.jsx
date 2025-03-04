@@ -1,9 +1,14 @@
 import React from "react";
-
-import "../../css/Profile.css";
+import "../../../css/Profile.css";
 
 const Profile = () => {
-  return <div></div>;
+  // Pensioneer's code start
+  return <>
+    <div>
+      <h1>Профиль</h1>
+    </div>
+  </>;
+  // Pensioneer's code start
 };
 
 export default Profile;

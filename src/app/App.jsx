@@ -8,6 +8,7 @@ import MainPage from "../components/mainPages/MainPage";
 import Register from "../components/auth/Register";
 import BackgroundWrapper from "./styleControl/BackgroundWrapper";
 import "../css/BackgroundAll.css";
+import Profile from "../components/mainPages/profile/Profile"; //Pensioneer's code
 
 const App = () => {
   const [authUser, setAuthUser] = useState(() => {
@@ -53,6 +54,7 @@ const App = () => {
           <Route path={routes.main} element={authUser ? <MainPage userSignOut={userSignOut} userName={userName} /> : <Navigate to={routes.register} />} />
           <Route path={routes.register} element={authUser ? <Navigate to={routes.main} /> : <Register />} />
           <Route path="*" element={<Navigate to={routes.standart} />} />
+          <Route path={routes.profile} element={authUser ? <Profile /> : <Navigate to={routes.register} />} />
         </Routes>
       </BackgroundWrapper>
     </Router>
