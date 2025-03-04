@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db } from "../../../firebase";
-import { ref, push, onValue, remove, onChildAdded, onChildChanged } from "firebase/database";
+import { ref, push, onValue, remove, onChildAdded, onChildChanged, set } from "firebase/database";
 import "../../../css/Messages.css";
 
 const Messages = ({ userName }) => {
@@ -9,6 +9,8 @@ const Messages = ({ userName }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [onlineStatus, setOnlineStatus] = useState({});
+  const [typingStatus, setTypingStatus] = useState(false); // Статус набора текста
+  const [otherUserTyping, setOtherUserTyping] = useState(false); // Статус того, кто пишет
   const [searchQuery, setSearchQuery] = useState("");
   const [showNewChatModal, setShowNewChatModal] = useState(false);
   const [chatUsers, setChatUsers] = useState([]);
@@ -40,28 +42,26 @@ const Messages = ({ userName }) => {
     onChildChanged(statusRef, handleStatusUpdate);
   }, []);
 
-  // Загружаем список чатов пользователя
- // Загружаем список чатов пользователя (убираем дубли)
-useEffect(() => {
-  const messagesRef = ref(db, "messages");
+  // Загружаем список чатов пользователя (убираем дубли)
+  useEffect(() => {
+    const messagesRef = ref(db, "messages");
 
-  onValue(messagesRef, (snapshot) => {
-    if (snapshot.exists()) {
-      const chatKeys = Object.keys(snapshot.val());
-      const userChats = new Set(); // Используем Set для удаления дубликатов
+    onValue(messagesRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const chatKeys = Object.keys(snapshot.val());
+        const userChats = new Set(); // Используем Set для удаления дубликатов
 
-      chatKeys.forEach((key) => {
-        if (key.includes(userName)) {
-          const chatUser = key.replace(`${userName}_`, "").replace(`_${userName}`, "");
-          userChats.add(chatUser); // Set не допускает дубликатов
-        }
-      });
+        chatKeys.forEach((key) => {
+          if (key.includes(userName)) {
+            const chatUser = key.replace(`${userName}_`, "").replace(`_${userName}`, "");
+            userChats.add(chatUser); // Set не допускает дубликатов
+          }
+        });
 
-      setChatUsers(Array.from(userChats)); // Преобразуем Set обратно в массив
-    }
-  });
-}, [userName]);
-
+        setChatUsers(Array.from(userChats)); // Преобразуем Set обратно в массив
+      }
+    });
+  }, [userName]);
 
   // Загружаем сообщения с выбранным пользователем
   useEffect(() => {
@@ -119,6 +119,42 @@ useEffect(() => {
       u.displayName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Функция для обновления статуса набора текста
+  useEffect(() => {
+    if (selectedUser) {
+      const typingRef = ref(db, `typing/${userName}_${selectedUser}`);
+      if (typingStatus) {
+        set(typingRef, true);
+      } else {
+        set(typingRef, false);
+      }
+    }
+  }, [typingStatus, selectedUser]);
+
+  // Слушатель для статуса набора текста другого пользователя
+  useEffect(() => {
+    if (selectedUser) {
+      const typingRef = ref(db, `typing/${selectedUser}_${userName}`);
+      onValue(typingRef, (snapshot) => {
+        if (snapshot.exists()) {
+          setOtherUserTyping(snapshot.val());
+        } else {
+          setOtherUserTyping(false);
+        }
+      });
+    }
+  }, [selectedUser, userName]);
+
+  // Обработчик изменения текста в поле ввода
+  const handleTyping = (e) => {
+    setNewMessage(e.target.value);
+    setTypingStatus(true);
+    clearTimeout(typingTimeout); // Очистить предыдущий таймер
+    typingTimeout = setTimeout(() => setTypingStatus(false), 1000); // Установить новый таймер
+  };
+
+  let typingTimeout;
+
   return (
     <div className="chat-container">
       {/* Список чатов */}
@@ -156,9 +192,11 @@ useEffect(() => {
             <div className="chat-header">
               <h3>Chat with {selectedUser}</h3>
               <div
-                className="status-indicator"
+                className="status-indicator vtoroi"
                 style={{ background: onlineStatus[selectedUser] === "online" ? "green" : "red" }}
-              ></div>
+              ></div> <div className="status-typ">{otherUserTyping && (
+                <div className="typing-status">Is typing...</div>
+              )}</div>
               <button className="delete-chat-button" onClick={deleteChat}>
                 Delete Chat
               </button>
@@ -185,13 +223,16 @@ useEffect(() => {
               <div ref={messagesEndRef} />
             </div>
 
+            {/* Печатает ли другой пользователь */}
+           
+
             {/* Ввод сообщения */}
             <div className="input-area">
               <input
                 type="text"
                 placeholder="Type a message..."
                 value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
+                onChange={handleTyping}
                 onKeyPress={(e) => e.key === "Enter" && sendMessage()}
               />
               <button onClick={sendMessage} className="send-button">
