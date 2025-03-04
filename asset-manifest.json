@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/new-react-learn/static/css/main.36591225.css",
-    "main.js": "/new-react-learn/static/js/main.cb1c1393.js",
+    "main.css": "/new-react-learn/static/css/main.3db4f6b4.css",
+    "main.js": "/new-react-learn/static/js/main.ada3afa9.js",
     "static/media/ввв.jpg": "/new-react-learn/static/media/ввв.c2d16322fcccec4d162a.jpg",
     "static/media/stoto.jpg": "/new-react-learn/static/media/stoto.3fa87cc59001a284e4c0.jpg",
     "index.html": "/new-react-learn/index.html",
-    "main.36591225.css.map": "/new-react-learn/static/css/main.36591225.css.map",
-    "main.cb1c1393.js.map": "/new-react-learn/static/js/main.cb1c1393.js.map"
+    "main.3db4f6b4.css.map": "/new-react-learn/static/css/main.3db4f6b4.css.map",
+    "main.ada3afa9.js.map": "/new-react-learn/static/js/main.ada3afa9.js.map"
   },
   "entrypoints": [
-    "static/css/main.36591225.css",
-    "static/js/main.cb1c1393.js"
+    "static/css/main.3db4f6b4.css",
+    "static/js/main.ada3afa9.js"
   ]
 }
