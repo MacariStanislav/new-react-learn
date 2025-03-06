@@ -35,7 +35,7 @@ const CyberpunkCursor = () => {
     };
 
     const handleMouseLeave = () => {
-      gsap.to(cursor, { opacity: 0, duration: 0.4, ease: "power2.out" });
+      gsap.to(cursor, { opacity: 0, duration: 0.4, ease: "power0.out" });
       setTimeout(() => setIsVisible(false), 400);
     };
 
