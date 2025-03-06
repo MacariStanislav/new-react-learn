@@ -70,7 +70,6 @@ const MainPage = ({ userSignOut, userName }) => {
       <div id="divRain" ref={divRainRef}></div>
       <div className="allMain">
         <Messages userName={userName} />
-
         <ul>
           <Navbar />
           <li>
@@ -84,7 +83,6 @@ const MainPage = ({ userSignOut, userName }) => {
           </li>
         </ul>
       </div>
-
       {/* import { useNavigate } from "react-router-dom"; */}
       {/* const Profile = () => {  //для того чтобы в будущем переключать страницы в мейне не через состояния а по роутеру 
   const navigate = useNavigate(); // Хук для навигации
