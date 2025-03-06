@@ -1,3 +1,10 @@
+.allMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .chat-container {
   display: flex;
   height: 50vh;
@@ -74,6 +81,7 @@
   flex-direction: column;
   justify-content: space-between;
   background: #222;
+  width: 30vw;
 }
 
 .chat-header {
@@ -103,7 +111,9 @@
   padding: 15px;
   display: flex;
   flex-direction: column;
-  max-height: 29vh; /* Ограничиваем высоту чата */
+  max-height: 39vh;
+  height: 498px;
+  /* Ограничиваем высоту чата */
 }
 
 .message {
