@@ -6,7 +6,7 @@ import Messages from "./messages/Messages";
 import "../../css/MainPage.css";
 
 const MainPage = ({ userSignOut, userName }) => {
- 
+
   const divRainRef = useRef(null);
 
   const GetAString = (len) => {
@@ -86,7 +86,6 @@ const MainPage = ({ userSignOut, userName }) => {
       {/* import { useNavigate } from "react-router-dom"; */}
       {/* const Profile = () => {  //для того чтобы в будущем переключать страницы в мейне не через состояния а по роутеру 
   const navigate = useNavigate(); // Хук для навигации
-
   return (
     <div>
       <h1>Профиль</h1>

@@ -7,10 +7,9 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Pensioneer's code start */}
       <li>
-        {/* Pensioneer's code start */}
         <Link to={"/profile"} className="cyberpunkButton" data-text="Digital Vault">Digital Vault</Link> {/* ураа я сделал я тупой */}
-        {/* Pensioneer's code end*/}
       </li>
       <li>
         <Link data-text="NeuroLink" className="cyberpunkButton">NeuroLink</Link>
@@ -21,6 +20,7 @@ const Navbar = () => {
       <li>
         <Link data-text="Neuro Sync" className="cyberpunkButton">Neuro Sync</Link>
       </li>
+      {/* Pensioneer's code end*/}
     </>
   );
 };
