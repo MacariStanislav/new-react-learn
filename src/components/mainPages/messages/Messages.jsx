@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db } from "../../../firebase";
-import { ref, push, onValue, remove, onChildAdded, onChildChanged, set } from "firebase/database";
+import {
+  ref,
+  push,
+  onValue,
+  remove,
+  onChildAdded,
+  onChildChanged,
+  set,
+} from "firebase/database";
 import "../../../css/Messages.css";
 
 const Messages = ({ userName }) => {
@@ -9,7 +17,7 @@ const Messages = ({ userName }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [onlineStatus, setOnlineStatus] = useState({});
-  const [typingStatus, setTypingStatus] = useState(false); // Статус набора текста
+  const [isTyping, setTypingStatus] = useState(false); // Статус набора текста
   const [otherUserTyping, setOtherUserTyping] = useState(false); // Статус того, кто пишет
   const [searchQuery, setSearchQuery] = useState("");
   const [showNewChatModal, setShowNewChatModal] = useState(false);
@@ -53,7 +61,9 @@ const Messages = ({ userName }) => {
 
         chatKeys.forEach((key) => {
           if (key.includes(userName)) {
-            const chatUser = key.replace(`${userName}_`, "").replace(`_${userName}`, "");
+            const chatUser = key
+              .replace(`${userName}_`, "")
+              .replace(`_${userName}`, "");
             userChats.add(chatUser); // Set не допускает дубликатов
           }
         });
@@ -80,14 +90,18 @@ const Messages = ({ userName }) => {
   // Прокрутка вниз при новом сообщении
   useEffect(() => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
   // Отправка сообщения
   const sendMessage = () => {
     if (newMessage.trim() !== "" && selectedUser) {
-      const timestamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      const timestamp = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
       const messageData = { text: newMessage, sender: userName, timestamp };
       push(ref(db, `messages/${userName}_${selectedUser}`), messageData);
       push(ref(db, `messages/${selectedUser}_${userName}`), messageData);
@@ -123,13 +137,13 @@ const Messages = ({ userName }) => {
   useEffect(() => {
     if (selectedUser) {
       const typingRef = ref(db, `typing/${userName}_${selectedUser}`);
-      if (typingStatus) {
+      if (isTyping) {
         set(typingRef, true);
       } else {
         set(typingRef, false);
       }
     }
-  }, [typingStatus, selectedUser]);
+  }, [isTyping, selectedUser]);
 
   // Слушатель для статуса набора текста другого пользователя
   useEffect(() => {
@@ -144,14 +158,19 @@ const Messages = ({ userName }) => {
       });
     }
   }, [selectedUser, userName]);
-
+  const typingTimeoutRef = useRef(null);
   // Обработчик изменения текста в поле ввода
   const handleTyping = (e) => {
     setNewMessage(e.target.value);
     setTypingStatus(true);
-    clearTimeout(typingTimeout); // Очистить предыдущий таймер
-    typingTimeout = setTimeout(() => setTypingStatus(false), 1000); // Установить новый таймер
-  };
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    typingTimeoutRef.current = setTimeout(() => {
+      setTypingStatus(false);
+    }, 2000);
+   };
 
   let typingTimeout;
 
@@ -169,7 +188,9 @@ const Messages = ({ userName }) => {
             >
               <div
                 className="status-indicator"
-                style={{ background: onlineStatus[user] === "online" ? "green" : "red" }}
+                style={{
+                  background: onlineStatus[user] === "online" ? "green" : "red",
+                }}
               ></div>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
@@ -180,7 +201,10 @@ const Messages = ({ userName }) => {
             </div>
           ))}
         </div>
-        <button className="new-chat-button" onClick={() => setShowNewChatModal(true)}>
+        <button
+          className="new-chat-button"
+          onClick={() => setShowNewChatModal(true)}
+        >
           New Chat
         </button>
       </div>
@@ -193,10 +217,16 @@ const Messages = ({ userName }) => {
               <h3>Chat with {selectedUser}</h3>
               <div
                 className="status-indicator vtoroi"
-                style={{ background: onlineStatus[selectedUser] === "online" ? "green" : "red" }}
-              ></div> <div className="status-typ">{otherUserTyping && (
-                <div className="typing-status">Is typing...</div>
-              )}</div>
+                style={{
+                  background:
+                    onlineStatus[selectedUser] === "online" ? "green" : "red",
+                }}
+              ></div>{" "}
+              <div className="status-typ">
+                {otherUserTyping && (
+                  <div className="typing-status">Is typing...</div>
+                )}
+              </div>
               <button className="delete-chat-button" onClick={deleteChat}>
                 Delete Chat
               </button>
@@ -206,7 +236,9 @@ const Messages = ({ userName }) => {
               {messages.map((msg, index) => (
                 <div
                   key={index}
-                  className={`message ${msg.sender === userName ? "my-message" : "other-message"}`}
+                  className={`message ${
+                    msg.sender === userName ? "my-message" : "other-message"
+                  }`}
                 >
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
@@ -224,7 +256,6 @@ const Messages = ({ userName }) => {
             </div>
 
             {/* Печатает ли другой пользователь */}
-           
 
             {/* Ввод сообщения */}
             <div className="input-area">
@@ -241,7 +272,9 @@ const Messages = ({ userName }) => {
             </div>
           </div>
         ) : (
-          <div className="chat-placeholder">Select a user to start chatting</div>
+          <div className="chat-placeholder">
+            Select a user to start chatting
+          </div>
         )}
       </div>
 
@@ -257,14 +290,23 @@ const Messages = ({ userName }) => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input"
             />
+            
             <div className="new-users-list">
               {filteredNewUsers.map((u, index) => (
-                <div key={index} className="user-item" onClick={() => setSelectedUser(u.displayName)}>
+                <div
+                  key={index}
+                  className="user-item"
+                  onClick={() => setSelectedUser(u.displayName)}
+                >
+                  
                   <span>{u.displayName}</span>
                 </div>
               ))}
             </div>
-            <button className="close-button" onClick={() => setShowNewChatModal(false)}>
+            <button
+              className="close-button"
+              onClick={() => setShowNewChatModal(false)}
+            >
               Close
             </button>
           </div>
@@ -275,3 +317,5 @@ const Messages = ({ userName }) => {
 };
 
 export default Messages;
+
+
