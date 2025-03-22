@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, set, get } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { auth, db } from "../../../firebase";
-
-import "../../../css/Register.css";
+import { useNavigate } from "react-router-dom"; // Используем useNavigate
 
 const SignUp = ({ setMode, setUserName }) => {
   const [email, setEmail] = useState("");
@@ -12,77 +10,67 @@ const SignUp = ({ setMode, setUserName }) => {
   const [copyPassword, setCopyPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // Для отслеживания загрузки
+  const navigate = useNavigate(); // Для редиректа после регистрации
 
-  // Проверка: существует ли уже такое имя
-  const checkNameExists = async (name) => {
-    const snapshot = await get(ref(db, "users"));
-    if (snapshot.exists()) {
-      const users = snapshot.val();
-      return Object.values(users).some((user) => user.displayName === name);
-    }
-    return false;
-  };
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserName(user.displayName);
+        // После того как пользователь аутентифицирован, редирект на главную
+        navigate("/main");
+      }
+    });
 
-  // Проверка: существует ли уже такой email
-  const checkEmailExists = async (email) => {
-    const snapshot = await get(ref(db, "users"));
-    if (snapshot.exists()) {
-      const users = snapshot.val();
-      return Object.values(users).some((user) => user.email === email);
-    }
-    return false;
-  };
+    return () => unsubscribe();
+  }, [navigate, setUserName]);
 
-  async function register(e) {
+  const register = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     if (password !== copyPassword) {
       setError("Passwords didn't match");
+      setLoading(false);
       return;
     }
 
     if (!name.trim()) {
       setError("Name cannot be empty");
+      setLoading(false);
       return;
     }
 
     if (!email.trim()) {
       setError("Email cannot be empty");
+      setLoading(false);
       return;
     }
 
-    const nameExists = await checkNameExists(name);
-    if (nameExists) {
-      setError("This name is already taken. Choose another one.");
-      return;
-    }
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-    const emailExists = await checkEmailExists(email);
-    if (emailExists) {
-      setError("This email is already registered. Try logging in.");
-      return;
-    }
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-
-        return set(ref(db, "users/" + user.uid), {
-          email: user.email,
-          displayName: name,
-        }).then(() => {
-          setUserName(name);
-          setEmail("");
-          setCopyPassword("");
-          setPassword("");
-          setName("");
-        });
-      })
-      .catch((error) => {
-        setError("Failed to create account.");
+      // Сохраняем пользователя в базе данных
+      await set(ref(db, "users/" + user.uid), {
+        email: user.email,
+        displayName: name,
       });
-  }
+
+      // Пользователь успешно зарегистрирован, состояние аутентификации должно обновиться
+      setUserName(name);
+      setEmail("");
+      setCopyPassword("");
+      setPassword("");
+      setName("");
+    } catch (error) {
+      setError("Failed to create account. Please try again.");
+      console.error("Error during registration:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="login-box">
@@ -128,6 +116,7 @@ const SignUp = ({ setMode, setUserName }) => {
           Create Account
         </a>
       </form>
+      {loading && <p>Loading...</p>}
       {error && <p className="eror">{error}</p>}
       <p>
         Already have an account?{" "}
