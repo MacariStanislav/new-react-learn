@@ -64,14 +64,14 @@ const MainPage = ({ userSignOut, userName }) => {
       <div id="divRain" ref={divRainRef}></div>
       <div className="allMain">
         <Messages userName={userName} />
-        <ul>
+        <div className="MainNav">
           <Navbar />
-          <li>
+         
             <button className="cyberpunkButton" onClick={userSignOut} data-text="Sign Out">
               <span>Sign Out</span>
             </button>
-          </li>
-        </ul>
+        
+            </div>
       </div>
     </>
   );

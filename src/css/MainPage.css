@@ -49,7 +49,7 @@ div.drop {
   margin: 0 auto;
   z-index: 1;
 }
-.allMain ul {
+.MainNav  {
   width: 80vw;
   display: flex;
   position: fixed;
@@ -68,7 +68,7 @@ div.drop {
   align-items: center;
   user-select: none;
 }
-.allMain ul:hover {
+.MainNav:hover {
   box-shadow: 0 0 30px rgb(138, 43, 226), 0 0 60px rgba(138, 43, 226, 0.7), 0 0 120px rgba(182, 104, 104, 0.5);
 }
 
