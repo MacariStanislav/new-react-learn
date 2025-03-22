@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, set } from "firebase/database";
+import { ref, set, get } from "firebase/database"; // Импортируем get для проверки существования имени и email
 import { auth, db } from "../../../firebase";
-import { useNavigate } from "react-router-dom"; // Используем useNavigate
 
 const SignUp = ({ setMode, setUserName }) => {
   const [email, setEmail] = useState("");
@@ -11,19 +10,16 @@ const SignUp = ({ setMode, setUserName }) => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false); // Для отслеживания загрузки
-  const navigate = useNavigate(); // Для редиректа после регистрации
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUserName(user.displayName);
-        // После того как пользователь аутентифицирован, редирект на главную
-        navigate("/main");
       }
     });
 
     return () => unsubscribe();
-  }, [navigate, setUserName]);
+  }, [setUserName]);
 
   const register = async (e) => {
     e.preventDefault();
@@ -49,6 +45,34 @@ const SignUp = ({ setMode, setUserName }) => {
     }
 
     try {
+      // Проверка на наличие имени в базе данных
+      const nameRef = ref(db, "users/"); // Путь, где хранятся пользователи
+      const snapshot = await get(nameRef); // Получаем все данные пользователей
+      let nameExists = false;
+      let emailExists = false;
+
+      snapshot.forEach((childSnapshot) => {
+        const user = childSnapshot.val();
+        if (user.displayName === name) {
+          nameExists = true;
+        }
+        if (user.email === email) { // Добавляем проверку на email
+          emailExists = true;
+        }
+      });
+
+      if (nameExists) {
+        setError("This name is already taken.");
+        setLoading(false);
+        return;
+      }
+
+      if (emailExists) {
+        setError("This email is already registered.");
+        setLoading(false);
+        return;
+      }
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
@@ -64,8 +88,9 @@ const SignUp = ({ setMode, setUserName }) => {
       setCopyPassword("");
       setPassword("");
       setName("");
+
+      // После регистрации перенаправляем на главную
     } catch (error) {
-      setError("Failed to create account. Please try again.");
       console.error("Error during registration:", error);
     } finally {
       setLoading(false);

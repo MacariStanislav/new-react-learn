@@ -23,9 +23,11 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        // Добавляем задержку перед выполнением
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+  
         setAuthUser(user);
         localStorage.setItem("authUser", JSON.stringify(user));
-
         const name = await getUserNameFromDB(user.uid);
         setUserName(name);
 
