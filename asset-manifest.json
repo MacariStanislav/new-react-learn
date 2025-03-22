@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/new-react-learn/static/css/main.f8cf4c63.css",
+    "main.js": "/new-react-learn/static/js/main.dcd3acc2.js",
+    "static/media/ввв.jpg": "/new-react-learn/static/media/ввв.c2d16322fcccec4d162a.jpg",
+    "static/media/stoto.jpg": "/new-react-learn/static/media/stoto.3fa87cc59001a284e4c0.jpg",
+    "index.html": "/new-react-learn/index.html",
+    "main.f8cf4c63.css.map": "/new-react-learn/static/css/main.f8cf4c63.css.map",
+    "main.dcd3acc2.js.map": "/new-react-learn/static/js/main.dcd3acc2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f8cf4c63.css",
+    "static/js/main.dcd3acc2.js"
+  ]
+}
