@@ -1,10 +1,11 @@
 import React from "react";
 
-const Navbar = () => {
+
+const Navbar = ({ activ, setActiv}) => {
   return (
     <>
-      <li className="cyberpunkButton" data-text="Digital Vault">
-        <span>Digital Vault</span>
+      <li className="cyberpunkButton" data-text="Digital Vault" onClick={() => setActiv(!activ)}>
+       <span >Digital Vault</span>
       </li>
       <li className="cyberpunkButton" data-text="NeuroLink">
         <span>NeuroLink</span>
